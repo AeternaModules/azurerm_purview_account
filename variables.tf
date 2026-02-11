@@ -19,9 +19,9 @@ EOT
     location                    = string
     name                        = string
     resource_group_name         = string
-    managed_event_hub_enabled   = optional(bool, true)
+    managed_event_hub_enabled   = optional(bool) # Default: true
     managed_resource_group_name = optional(string)
-    public_network_enabled      = optional(bool, true)
+    public_network_enabled      = optional(bool) # Default: true
     tags                        = optional(map(string))
     identity = object({
       identity_ids = optional(set(string))
