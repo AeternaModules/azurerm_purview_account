@@ -1,3 +1,7 @@
+output "purview_accounts_id" {
+  description = "Map of id values across all purview_accounts, keyed the same as var.purview_accounts"
+  value       = { for k, v in azurerm_purview_account.purview_accounts : k => v.id }
+}
 output "purview_accounts_atlas_kafka_endpoint_primary_connection_string" {
   description = "Map of atlas_kafka_endpoint_primary_connection_string values across all purview_accounts, keyed the same as var.purview_accounts"
   value       = { for k, v in azurerm_purview_account.purview_accounts : k => v.atlas_kafka_endpoint_primary_connection_string }
