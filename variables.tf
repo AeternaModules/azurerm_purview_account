@@ -19,27 +19,22 @@ EOT
     location                    = string
     name                        = string
     resource_group_name         = string
-    managed_event_hub_enabled   = optional(bool) # Default: true
+    managed_event_hub_enabled   = optional(bool)
     managed_resource_group_name = optional(string)
-    public_network_enabled      = optional(bool) # Default: true
+    public_network_enabled      = optional(bool)
     tags                        = optional(map(string))
     identity = object({
       identity_ids = optional(set(string))
       type         = string
     })
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.purview_accounts : (
-        can(regex("^[a-zA-Z0-9][-a-zA-Z0-9]{1,61}[a-zA-Z0-9]$", v.name))
-      )
-    ])
-    error_message = "The Purview account name must be between 3 and 63 characters long, it can contain only letters, numbers and hyphens, and the first and last characters must be a letter or number."
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_purview_account's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
   # Review, translate into a real validation{} block above, and delete once confirmed.
+  # path: name
+  #   condition: can(regex("^[a-zA-Z0-9][-a-zA-Z0-9]{1,61}[a-zA-Z0-9]$", value))
+  #   message:   The Purview account name must be between 3 and 63 characters long, it can contain only letters, numbers and hyphens, and the first and last characters must be a letter or number.
   # path: resource_group_name
   #   condition: length(value) <= 90
   #   message:   [from resourcegroups.ValidateName: invalid when len(value) > 90]
